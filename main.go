@@ -3,9 +3,9 @@ package main
 import "github.com/gin-gonic/gin"
 
 type Pizza struct {
-	ID    int
-	Preco float64
-	Sabor string
+	ID    int     `json:"id"`
+	Preco float64 `json:"preco"`
+	Sabor string  `json:"sabor"`
 }
 
 func main() {
