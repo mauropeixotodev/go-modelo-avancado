@@ -1,12 +1,10 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"pizzaria/models"
 
-type Pizza struct {
-	ID    int     `json:"id"`
-	Preco float64 `json:"preco"`
-	Sabor string  `json:"sabor"`
-}
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 
@@ -16,6 +14,6 @@ func main() {
 }
 
 func getPizzas(c *gin.Context) {
-	var pizzas = []Pizza{Pizza{ID: 1, Preco: 29.99, Sabor: "Calabresa"}, Pizza{ID: 2, Preco: 34.99, Sabor: "Mussarela"}, Pizza{ID: 3, Preco: 39.99, Sabor: "Frango com Catupiry"}}
+	var pizzas = []models.Pizza{models.Pizza{ID: 1, Preco: 29.99, Sabor: "Calabresa"}, models.Pizza{ID: 2, Preco: 34.99, Sabor: "Mussarela"}, models.Pizza{ID: 3, Preco: 39.99, Sabor: "Frango com Catupiry"}}
 	c.JSON(200, pizzas)
 }
