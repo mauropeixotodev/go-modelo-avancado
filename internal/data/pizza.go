@@ -3,7 +3,6 @@ package data
 import (
 	"encoding/json"
 	"fmt"
-
 	"os"
 	"pizzaria/internal/models"
 )
@@ -23,5 +22,20 @@ func LoadPizzas() {
 		return
 	}
 	defer file.Close()
+
+}
+
+func SavePizzas() {
+	file, err := os.Create("./dados/pizza.json")
+	if err != nil {
+		fmt.Print("Erro ao criar o arquivo:", err)
+		return
+	}
+
+	encoder := json.NewEncoder(file)
+	if err := encoder.Encode(Pizzas); err != nil {
+		fmt.Print("Erro ao codificar o arquivo:", err)
+		return
+	}
 
 }

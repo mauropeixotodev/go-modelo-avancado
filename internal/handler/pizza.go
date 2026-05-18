@@ -1,10 +1,7 @@
 package handler
 
 import (
-	"encoding/json"
-	"fmt"
 	"net/http"
-	"os"
 	"pizzaria/internal/data"
 	"pizzaria/internal/models"
 	"pizzaria/internal/service"
@@ -31,7 +28,7 @@ func CreatePizza(c *gin.Context) {
 	}
 	pizza.ID = len(data.Pizzas) + 1
 	data.Pizzas = append(data.Pizzas, pizza)
-	savePizzas()
+	data.SavePizzas()
 
 	c.JSON(201, pizza)
 }
@@ -48,7 +45,7 @@ func DeletePizza(c *gin.Context) {
 	for i, pizza := range data.Pizzas {
 		if pizza.ID == id {
 			data.Pizzas = append(data.Pizzas[:i], data.Pizzas[i+1:]...)
-			savePizzas()
+			data.SavePizzas()
 			c.JSON(http.StatusBadRequest, gin.H{"message": "Pizza deletada com sucesso"})
 			return
 		}
@@ -83,7 +80,7 @@ func UpdatePizza(c *gin.Context) {
 
 			data.Pizzas[i] = updatedPizza
 			data.Pizzas[i].ID = id
-			savePizzas()
+			data.SavePizzas()
 			c.JSON(http.StatusOK, data.Pizzas[i])
 			return
 		}
@@ -109,19 +106,4 @@ func GetPizzaByID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusNotFound, gin.H{"error": "Pizza não encontrada"})
-}
-
-func savePizzas() {
-	file, err := os.Create("./dados/pizza.json")
-	if err != nil {
-		fmt.Print("Erro ao criar o arquivo:", err)
-		return
-	}
-
-	encoder := json.NewEncoder(file)
-	if err := encoder.Encode(data.Pizzas); err != nil {
-		fmt.Print("Erro ao codificar o arquivo:", err)
-		return
-	}
-
 }
